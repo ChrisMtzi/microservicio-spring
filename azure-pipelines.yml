@@ -44,3 +44,10 @@ steps:
     artifactName: 'appJar'
     downloadPath: '$(Pipeline.Workspace)'
   displayName: Descarga Jar
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloud-test'
+    organization: 'devops-microservice'
+    scannerMode: 'MSBuild'
+    projectKey: 'ChrisMtzi_microservicio-spring'
