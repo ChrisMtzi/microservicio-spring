@@ -16,3 +16,31 @@ steps:
     javaHomeOption: 'JDKVersion'
     sonarQubeRunAnalysis: false
     spotBugsAnalysis: false
+  displayName: 'Build Plugin'
+
+- task: CopyFiles@2
+  inputs:
+    sourceFolder: '$(Build.SourcesDirectory)'
+    contents: |
+        **/build/libs/*.jar
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: appJar
+    publishLocation: 'Container'
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'JaCoCo' # Available options: 'JaCoCo', 'Cobertura'
+    summaryFileLocation: '$(Build.ArtifactStagingDirectory)/reports/jacoco/test/jacocoTestReport.xml'
+    reportDirectory: '$(Build.ArtifactStagingDirectory)/reports/jacoco/test/html'
+
+- task: DownloadBuildArtifacts@0
+  inputs:
+    buildType: 'current'
+    downloadType: 'single'
+    artifactName: 'appJar'
+    downloadPath: '$(Pipeline.Workspace)'
+  displayName: Descarga Jar
