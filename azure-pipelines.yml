@@ -48,12 +48,10 @@ steps:
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'SonarCloud-test'
-    organization: 'ChrisMtzi'
+    organization: 'devops-microservicetest'
+    scannerMode: 'MSBuild'
     projectKey: 'ChrisMtzi_microservicio-spring'
-    extraProperties: |
-      sonar.coverage.jacoco.xmlReportPaths=$(Pipeline.Workspace)/appJar/build/reports/jacoco/test/jacocoTestReport.xml
-  displayName: 'Preparing Sonarqube Environment'
-
+    projectName: 'microservicio-spring'
 
 - task: Gradle@3
   inputs:
